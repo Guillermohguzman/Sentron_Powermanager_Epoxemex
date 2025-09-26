@@ -3,6 +3,590 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Supervisión Energética - Documento Editable</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .document-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .document-header {
+            background: linear-gradient(135deg, #1a5276, #2c3e50);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .document-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .document-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .document-content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            border: 2px dashed #e0e0e0;
+            padding: 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            border-color: #1a5276;
+            background: #f8f9fa;
+        }
+        
+        .section-title {
+            color: #1a5276;
+            border-bottom: 3px solid #27ae60;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .editable {
+            min-height: 100px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 15px 0;
+            background: #fff;
+            cursor: text;
+        }
+        
+        .editable:focus {
+            outline: 2px solid #1a5276;
+            background: #fafafa;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #1a5276;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .form-group {
+            margin: 15px 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #219653;
+        }
+        
+        .btn-print {
+            background: #1a5276;
+        }
+        
+        .btn-print:hover {
+            background: #154360;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .status-normal { 
+            background: #d5f4e6; 
+            color: #27ae60; 
+        }
+        
+        .status-warning { 
+            background: #fdebd0; 
+            color: #f39c12; 
+        }
+        
+        .status-critical { 
+            background: #fadbd8; 
+            color: #e74c3c; 
+        }
+        
+        @media print {
+            .no-print { 
+                display: none !important; 
+            }
+            body { 
+                background: white; 
+                padding: 0; 
+            }
+            .document-container { 
+                box-shadow: none; 
+                margin: 0; 
+            }
+            .section { 
+                border: 1px solid #000; 
+            }
+            .editable { 
+                border: 1px solid #000; 
+            }
+        }
+        
+        /* Estilos adicionales para mejorar la experiencia */
+        .instructions {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #1a5276;
+        }
+        
+        .timestamp {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-align: right;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1 contenteditable="true">GUÍA DE SUPERVISIÓN ENERGÉTICA</h1>
+            <p contenteditable="true">Sistema integrado de monitoreo - Bitácoras por turno, día, semana y mes</p>
+            <div class="timestamp" contenteditable="true">Última actualización: <span id="current-date"></span></div>
+        </div>
+        
+        <div class="document-content">
+            <div class="instructions no-print">
+                <h3>📝 INSTRUCCIONES DE USO</h3>
+                <p><strong>Para editar este documento:</strong> Haga clic en cualquier texto para modificarlo. Use los botones de control para guardar o imprimir.</p>
+            </div>
+            
+            <!-- SECCIÓN 1: CALIDAD DE ENERGÍA -->
+            <div class="section">
+                <h2 class="section-title" contenteditable="true">1. SUPERVISIÓN DE CALIDAD DE ENERGÍA</h2>
+                
+                <div class="editable" contenteditable="true">
+                    <strong>Objetivo:</strong> Monitorear continuamente los parámetros de calidad de energía para garantizar operación óptima y prevenir daños en equipos.
+                </div>
+                
+                <h3 contenteditable="true">Parámetros de Calidad a Monitorear</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th contenteditable="true">Parámetro</th>
+                            <th contenteditable="true">Límite Normal</th>
+                            <th contenteditable="true">Límite Alerta</th>
+                            <th contenteditable="true">Límite Crítico</th>
+                            <th contenteditable="true">Acción Correctiva</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td contenteditable="true">Tensión (V)</td>
+                            <td contenteditable="true">220V ±5%</td>
+                            <td contenteditable="true">220V ±8%</td>
+                            <td contenteditable="true">220V ±10%</td>
+                            <td contenteditable="true">Ajustar transformador</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">Frecuencia (Hz)</td>
+                            <td contenteditable="true">60Hz ±0.2%</td>
+                            <td contenteditable="true">60Hz ±0.5%</td>
+                            <td contenteditable="true">60Hz ±1%</td>
+                            <td contenteditable="true">Verificar generación</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">THD Voltaje</td>
+                            <td contenteditable="true">&lt; 5%</td>
+                            <td contenteditable="true">5% - 8%</td>
+                            <td contenteditable="true">&gt; 8%</td>
+                            <td contenteditable="true">Instalar filtros</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">Factor de Potencia</td>
+                            <td contenteditable="true">&gt; 0.95</td>
+                            <td contenteditable="true">0.90 - 0.95</td>
+                            <td contenteditable="true">&lt; 0.90</td>
+                            <td contenteditable="true">Activar capacitores</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="editable" contenteditable="true">
+                    <strong>Procedimiento de Verificación:</strong> Realizar mediciones cada 2 horas y registrar en bitácora. Ante desviaciones, activar protocolo correspondiente.
+                </div>
+            </div>
+            
+            <!-- SECCIÓN 2: SISTEMA DE ALARMAS -->
+            <div class="section">
+                <h2 class="section-title" contenteditable="true">2. SISTEMA DE ALARMAS Y NOTIFICACIONES</h2>
+                
+                <h3 contenteditable="true">Clasificación por Niveles de Prioridad</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th contenteditable="true">Nivel</th>
+                            <th contenteditable="true">Color</th>
+                            <th contenteditable="true">Respuesta Requerida</th>
+                            <th contenteditable="true">Tiempo Máximo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td contenteditable="true"><span class="status-badge status-critical">CRÍTICA</span></td>
+                            <td contenteditable="true">Rojo</td>
+                            <td contenteditable="true">Inmediata - Parada de equipo</td>
+                            <td contenteditable="true">5 minutos</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true"><span class="status-badge status-warning">ALTA</span></td>
+                            <td contenteditable="true">Naranja</td>
+                            <td contenteditable="true">Urgente - Acción correctiva</td>
+                            <td contenteditable="true">15 minutos</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true"><span class="status-badge status-normal">MEDIA</span></td>
+                            <td contenteditable="true">Amarillo</td>
+                            <td contenteditable="true">Programada - Monitoreo estrecho</td>
+                            <td contenteditable="true">4 horas</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="form-group">
+                    <label>Registro de Alarma</label>
+                    <div class="editable" contenteditable="true">
+                        <strong>Fecha:</strong> [Fecha de la alarma]<br>
+                        <strong>Equipo:</strong> [Nombre del equipo]<br>
+                        <strong>Descripción:</strong> [Detalles de la alarma]<br>
+                        <strong>Acción Tomada:</strong> [Medidas implementadas]<br>
+                        <strong>Responsable:</strong> [Nombre del operador]
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECCIÓN 3: CONTROL DE CONSUMO -->
+            <div class="section">
+                <h2 class="section-title" contenteditable="true">3. CONTROL Y OPTIMIZACIÓN DE CONSUMO</h2>
+                
+                <h3 contenteditable="true">Indicadores Clave de Desempeño (KPI)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th contenteditable="true">KPI</th>
+                            <th contenteditable="true">Fórmula</th>
+                            <th contenteditable="true">Meta</th>
+                            <th contenteditable="true">Frecuencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td contenteditable="true">Intensidad Energética</td>
+                            <td contenteditable="true">kWh / Unidad Producida</td>
+                            <td contenteditable="true">Reducción 5% anual</td>
+                            <td contenteditable="true">Diaria</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">Demanda Máxima</td>
+                            <td contenteditable="true">Mayor kW en periodo</td>
+                            <td contenteditable="true">No superar contrato</td>
+                            <td contenteditable="true">Por turno</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">Factor de Carga</td>
+                            <td contenteditable="true">Energía Promedio / Demanda Máxima</td>
+                            <td contenteditable="true">&gt; 75%</td>
+                            <td contenteditable="true">Diaria</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="editable" contenteditable="true">
+                    <strong>Estrategias por Turno:</strong><br>
+                    • <strong>Mañana (6:00-14:00):</strong> Arranque escalonado, evitar picos<br>
+                    • <strong>Tarde (14:00-22:00):</strong> Mantenimiento, ajuste setpoints<br>
+                    • <strong>Noche (22:00-6:00):</strong> Procesos intensivos, carga sistemas
+                </div>
+            </div>
+            
+            <!-- SECCIÓN 4: BITÁCORAS -->
+            <div class="section">
+                <h2 class="section-title" contenteditable="true">4. SISTEMA DE BITÁCORAS INTEGRADAS</h2>
+                
+                <h3 contenteditable="true">Bitácora de Turno - Formato Editable</h3>
+                
+                <div class="form-group">
+                    <label>Fecha y Turno</label>
+                    <div class="editable" contenteditable="true">
+                        <strong>Fecha:</strong> [DD/MM/AAAA]<br>
+                        <strong>Turno:</strong> [Mañana/Tarde/Noche]<br>
+                        <strong>Horario:</strong> [6:00-14:00 / 14:00-22:00 / 22:00-6:00]<br>
+                        <strong>Responsable:</strong> [Nombre completo]
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Actividades Realizadas</label>
+                    <div class="editable" contenteditable="true">
+                        • Monitoreo de parámetros de calidad<br>
+                        • Verificación de equipos críticos<br>
+                        • Registro de consumos por área<br>
+                        • Mantenimientos preventivos realizados<br>
+                        • [Agregar otras actividades...]
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Incidencias y Observaciones</label>
+                    <div class="editable" contenteditable="true">
+                        • Alarmas registradas: [Número y tipo]<br>
+                        • Equipos con comportamiento anómalo<br>
+                        • Recomendaciones para siguiente turno<br>
+                        • [Detallar otras incidencias...]
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Registro de Consumos</label>
+                    <div class="editable" contenteditable="true">
+                        <strong>Consumo Turno:</strong> [XXXX] kWh<br>
+                        <strong>Demanda Máxima:</strong> [XXX] kW<br>
+                        <strong>Costo Estimado:</strong> $[XXXX]<br>
+                        <strong>Observaciones:</strong> [Comentarios sobre consumo]
+                    </div>
+                </div>
+                
+                <h3 contenteditable="true">Resumen por Período</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th contenteditable="true">Período</th>
+                            <th contenteditable="true">Consumo (kWh)</th>
+                            <th contenteditable="true">Costo ($)</th>
+                            <th contenteditable="true">Alertas</th>
+                            <th contenteditable="true">Eficiencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td contenteditable="true">Turno Actual</td>
+                            <td contenteditable="true">[1,250]</td>
+                            <td contenteditable="true">$[450]</td>
+                            <td contenteditable="true"><span class="status-badge status-warning">[2]</span></td>
+                            <td contenteditable="true">[87]%</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">Hoy</td>
+                            <td contenteditable="true">[3,800]</td>
+                            <td contenteditable="true">$[1,350]</td>
+                            <td contenteditable="true"><span class="status-badge status-critical">[1]</span> <span class="status-badge status-warning">[3]</span></td>
+                            <td contenteditable="true">[85]%</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">Esta Semana</td>
+                            <td contenteditable="true">[26,500]</td>
+                            <td contenteditable="true">$[9,450]</td>
+                            <td contenteditable="true"><span class="status-badge status-critical">[2]</span> <span class="status-badge status-warning">[8]</span></td>
+                            <td contenteditable="true">[88]%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- CONTROLES -->
+            <div class="controls no-print">
+                <button class="btn" onclick="guardarDocumento()">💾 Guardar Documento</button>
+                <button class="btn btn-print" onclick="window.print()">🖨️ Imprimir Documento</button>
+                <button class="btn" onclick="exportarPDF()">📄 Exportar a PDF</button>
+                <button class="btn" onclick="limpiarDocumento()">🗑️ Limpiar Campos</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Establecer fecha actual
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('es-ES');
+        
+        // Función para guardar el documento
+        function guardarDocumento() {
+            try {
+                // Crear un objeto con el contenido importante
+                const contenido = {
+                    titulo: document.querySelector('.document-header h1').innerText,
+                    descripcion: document.querySelector('.document-header p').innerText,
+                    secciones: []
+                };
+                
+                // Recopilar contenido de cada sección
+                document.querySelectorAll('.section').forEach((seccion, index) => {
+                    const titulo = seccion.querySelector('.section-title').innerText;
+                    const editables = Array.from(seccion.querySelectorAll('.editable')).map(editable => editable.innerText);
+                    contenido.secciones.push({ titulo, editables });
+                });
+                
+                // Convertir a JSON y crear blob
+                const jsonContent = JSON.stringify(contenido, null, 2);
+                const blob = new Blob([jsonContent], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                // Crear enlace de descarga
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'guia_supervision_energetica.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                URL.revokeObjectURL(url);
+                alert('✅ Documento guardado como "guia_supervision_energetica.json"');
+            } catch (error) {
+                console.error('Error al guardar:', error);
+                alert('❌ Error al guardar el documento. Consulte la consola para más detalles.');
+            }
+        }
+        
+        // Función para exportar a PDF (simulada)
+        function exportarPDF() {
+            alert('📄 Para exportar a PDF, use la función de impresión de su navegador y seleccione "Guardar como PDF"');
+        }
+        
+        // Función para limpiar campos editables
+        function limpiarDocumento() {
+            if (confirm('¿Está seguro de que desea limpiar todos los campos editables?')) {
+                const editables = document.querySelectorAll('[contenteditable="true"]');
+                editables.forEach(editable => {
+                    if (editable.tagName === 'TD') {
+                        // Para celdas de tabla, mantener el formato básico
+                        if (!editable.querySelector('.status-badge')) {
+                            editable.textContent = '[ ]';
+                        }
+                    } else if (editable.tagName !== 'TH' && !editable.closest('thead')) {
+                        // Para otros elementos editables
+                        editable.textContent = '[Edite este contenido]';
+                    }
+                });
+                alert('Campos limpiados correctamente.');
+            }
+        }
+        
+        // Mejorar la experiencia de edición
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar placeholder a elementos editables vacíos
+            const editables = document.querySelectorAll('[contenteditable="true"]');
+            editables.forEach(editable => {
+                if (!editable.textContent.trim()) {
+                    editable.textContent = '[Haga clic para editar]';
+                }
+                
+                // Manejar el foco en editables
+                editable.addEventListener('focus', function() {
+                    if (this.textContent === '[Haga clic para editar]' || this.textContent === '[Edite este contenido]') {
+                        this.textContent = '';
+                    }
+                });
+                
+                // Manejar el desenfoque
+                editable.addEventListener('blur', function() {
+                    if (!this.textContent.trim()) {
+                        this.textContent = '[Edite este contenido]';
+                    }
+                });
+            });
+            
+            console.log('✅ Documento editable cargado correctamente');
+        });
+        
+        // Prevenir comportamientos no deseados al hacer clic en badges
+        document.querySelectorAll('.status-badge').forEach(badge => {
+            badge.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+</body>
+</html>!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión Energética - Epoxemex</title>
     <style>
         :root {
