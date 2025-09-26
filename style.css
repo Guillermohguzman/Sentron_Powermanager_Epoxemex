@@ -1,0 +1,30 @@
+/* Pega aquí todo el contenido de tu etiqueta <style> original */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* ... Pega el resto de tu CSS aquí ... */
+
+/* Estilos adicionales para los nuevos botones */
+.btn-secondary {
+    background-color: #5a6268;
+}
+.btn-secondary:hover {
+    background-color: #4a4f54;
+}
+.btn-danger {
+    background-color: #c82333;
+}
+.btn-danger:hover {
+    background-color: #a71d2a;
+}
